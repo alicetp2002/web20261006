@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="山嶺拾光｜登山健行行程推廣網站，探索台灣山林、輕裝健行與登山體驗。" />
+  <title>山嶺拾光｜登山健行行程</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --bg: light-dark(#f6f5ef, #111714);
+      --surface: light-dark(#ffffff, #18201c);
+      --surface-2: light-dark(#edf2eb, #1e2924);
+      --text: light-dark(#1c2521, #f2f4ef);
+      --muted: light-dark(#66716b, #aeb9b2);
+      --line: light-dark(#dce2db, #334139);
+      --brand: light-dark(#2e6a4f, #77bc98);
+      --brand-deep: light-dark(#174d36, #a0ddba);
+      --accent: light-dark(#cf8b3f, #e8a65d);
+      --shadow: 0 18px 50px rgba(21, 37, 29, .08);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    button, input, select, textarea { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    #app {
+      min-height: 100vh;
+      background: var(--bg);
+      border-radius: 0;
+    }
+
+    .container { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+    .section { padding: 92px 0; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 800; letter-spacing: .14em;
+      color: var(--brand); text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 24px; height: 1px; background: currentColor; }
+    h1, h2, h3 { margin: 0; letter-spacing: -.03em; }
+    h2 { font-size: clamp(30px, 4vw, 48px); line-height: 1.15; }
+    p { margin: 0; }
+
+    .nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(16px);
+      background: color-mix(in srgb, var(--bg) 86%, transparent);
+      border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+    }
+    .nav-inner { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 22px; }
+    .logo { display: inline-flex; align-items: center; gap: 10px; font-weight: 900; }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: 12px;
+      display: grid; place-items: center;
+      background: var(--brand); color: #fff;
+      box-shadow: 0 8px 18px rgba(46, 106, 79, .2);
+    }
+    .nav-links { display: flex; align-items: center; gap: 26px; font-size: 14px; font-weight: 700; color: var(--muted); }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { padding: 10px 16px; border: 1px solid var(--line); border-radius: 999px; font-weight: 800; color: var(--text); }
+
+    .hero { padding: 24px 0 72px; }
+    .hero-shell {
+      position: relative; overflow: hidden; min-height: 620px;
+      border-radius: 34px;
+      background: #b9d0bc;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+    .hero-art { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(10, 24, 18, .80) 0%, rgba(10, 24, 18, .47) 44%, rgba(10, 24, 18, .10) 78%, rgba(10, 24, 18, .02) 100%);
+    }
+    .hero-content { max-width: 650px; padding: clamp(56px, 8vw, 92px); color: #fff; }
+    .hero .eyebrow { color: #c4e7d2; }
+    .hero h1 { margin-top: 18px; font-size: clamp(46px, 7vw, 82px); line-height: 1.04; }
+    .hero-sub { margin-top: 22px; font-size: clamp(16px, 2vw, 19px); color: rgba(255,255,255,.86); max-width: 560px; }
+    .hero-meta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .pill { padding: 9px 14px; border-radius: 999px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2); color: #fff; font-size: 13px; font-weight: 800; }
+    .hero-actions { margin-top: 34px; display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn { border: 0; cursor: pointer; border-radius: 999px; padding: 13px 21px; font-weight: 900; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: .2s ease; }
+    .btn-primary { background: #fff; color: #173326; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(0,0,0,.14); }
+    .btn-ghost { color: #fff; background: rgba(255,255,255,.10); border: 1px solid rgba(255,255,255,.23); }
+    .btn-ghost:hover { background: rgba(255,255,255,.17); }
+
+    .intro-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 48px; align-items: end; }
+    .section-lead { margin-top: 18px; max-width: 680px; color: var(--muted); font-size: 17px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .stat { padding: 20px; border-radius: var(--radius-md); background: var(--surface); border: 1px solid var(--line); }
+    .stat strong { display: block; font-size: 30px; line-height: 1; color: var(--brand); }
+    .stat span { display: block; margin-top: 8px; color: var(--muted); font-size: 12px; font-weight: 700; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+    .card { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+    .card-media { aspect-ratio: 4/3; background: var(--surface-2); }
+    .card-body { padding: 22px; }
+    .card h3 { font-size: 22px; }
+    .card p { margin-top: 10px; color: var(--muted); font-size: 14px; }
+    .card-tag { display: inline-flex; margin-bottom: 14px; font-size: 11px; font-weight: 900; letter-spacing: .08em; color: var(--brand); }
+
+    .features { background: var(--surface-2); }
+    .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 40px; }
+    .feature { padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+    .feature-num { width: 36px; height: 36px; border-radius: 12px; display: grid; place-items: center; background: var(--surface-2); color: var(--brand); font-weight: 900; }
+    .feature h3 { margin-top: 18px; font-size: 22px; }
+    .feature p { margin-top: 9px; color: var(--muted); font-size: 14px; }
+
+    .itinerary { display: grid; grid-template-columns: .85fr 1.15fr; gap: 54px; align-items: start; }
+    .route-card { margin-top: 34px; padding: 26px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-lg); }
+    .route-line { position: relative; margin-left: 8px; }
+    .route-line::before { content:""; position:absolute; left:11px; top:13px; bottom:13px; width:1px; background: var(--line); }
+    .step { position: relative; display: grid; grid-template-columns: 24px 1fr; gap: 14px; padding-bottom: 28px; }
+    .step:last-child { padding-bottom: 0; }
+    .dot { width: 24px; height: 24px; border-radius: 50%; border: 6px solid var(--surface); background: var(--brand); box-shadow: 0 0 0 1px var(--brand); z-index: 1; }
+    .step small { color: var(--brand); font-weight: 900; }
+    .step h3 { margin-top: 2px; font-size: 18px; }
+    .step p { margin-top: 4px; color: var(--muted); font-size: 13px; }
+    .info-note { margin-top: 16px; padding: 16px 18px; border-radius: 14px; background: color-mix(in srgb, var(--accent) 11%, var(--surface)); color: var(--text); font-size: 13px; }
+
+    .gear-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 34px; }
+    .gear-item { padding: 18px; border-radius: 16px; background: var(--surface); border: 1px solid var(--line); }
+    .gear-item strong { display: block; font-size: 15px; }
+    .gear-item span { display: block; margin-top: 4px; color: var(--muted); font-size: 12px; }
+
+    .signup { background: #193427; color: #fff; }
+    .signup-wrap { display: grid; grid-template-columns: .88fr 1.12fr; gap: 42px; align-items: start; }
+    .signup .eyebrow { color: #b8dfc8; }
+    .signup-copy { padding-top: 8px; }
+    .signup h2 { margin-top: 16px; }
+    .signup-note { margin-top: 18px; color: rgba(255,255,255,.70); font-size: 14px; }
+    .form-card { padding: 28px; border-radius: var(--radius-lg); background: #fff; color: #1b241f; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field { display: grid; gap: 7px; }
+    .field.full { grid-column: 1/-1; }
+    label { font-size: 12px; font-weight: 900; color: #5d675f; }
+    input, select, textarea { width: 100%; border: 1px solid #d9dfda; border-radius: 13px; background: #fbfcfa; padding: 12px 13px; color: #1b241f; outline: none; }
+    textarea { min-height: 100px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { border-color: #4d886b; box-shadow: 0 0 0 3px rgba(77,136,107,.12); }
+    .form-footer { margin-top: 16px; display: flex; gap: 12px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+    .consent { font-size: 11px; color: #6c756e; }
+    .submit { background: #2e6a4f; color: #fff; min-width: 150px; }
+    .submit:hover { transform: translateY(-2px); }
+
+    footer { padding: 26px 0 38px; color: var(--muted); font-size: 12px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; }
+
+    .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 100; padding: 14px 18px; border-radius: 14px; background: #15241c; color: #fff; border: 1px solid rgba(255,255,255,.15); box-shadow: 0 18px 35px rgba(0,0,0,.24); transition: .25s ease; font-weight: 800; font-size: 13px; }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    @media (max-width: 900px) {
+      .nav-links a:not(.nav-cta) { display: none; }
+      .hero-shell { min-height: 680px; }
+      .intro-grid, .itinerary, .signup-wrap { grid-template-columns: 1fr; }
+      .cards { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 620px) {
+      .container { width: min(var(--max), calc(100% - 28px)); }
+      .section { padding: 68px 0; }
+      .hero { padding-top: 14px; }
+      .hero-shell { border-radius: 24px; min-height: 690px; }
+      .hero-content { padding: 54px 26px; }
+      .hero h1 { font-size: 48px; }
+      .stats, .cards, .feature-grid, .gear-grid, .form-grid { grid-template-columns: 1fr; }
+      .form-footer { align-items: stretch; }
+      .submit { width: 100%; }
+      .nav { position: static; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header class="nav">
+    <div class="container nav-inner">
+      <a class="logo" href="#top" aria-label="山嶺拾光首頁">
+        <span class="logo-mark">⛰</span>
+        <span>山嶺拾光</span>
+      </a>
+      <nav class="nav-links" aria-label="主選單">
+        <a href="#journey">行程</a>
+        <a href="#features">特色</a>
+        <a href="#gear">裝備</a>
+        <a class="nav-cta" href="#signup">立即報名</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-shell">
+          <svg class="hero-art" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <defs>
+              <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#b8d7e0"/><stop offset="0.58" stop-color="#d8e4dd"/><stop offset="1" stop-color="#edf0e7"/></linearGradient>
+              <linearGradient id="mist" x1="0" x2="1"><stop stop-color="#ffffff" stop-opacity=".65"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient>
+              <linearGradient id="ridge1" x1="0" x2="1"><stop stop-color="#607c71"/><stop offset="1" stop-color="#36594d"/></linearGradient>
+              <linearGradient id="ridge2" x1="0" x2="1"><stop stop-color="#496b5b"/><stop offset="1" stop-color="#203f32"/></linearGradient>
+            </defs>
+            <rect width="1600" height="900" fill="url(#sky)"/>
+            <circle cx="1270" cy="170" r="90" fill="#f8f2d7" opacity=".58"/>
+            <path d="M0 520 L220 390 L350 485 L540 280 L760 470 L930 325 L1120 510 L1290 350 L1600 540 V900 H0 Z" fill="url(#ridge1)" opacity=".74"/>
+            <path d="M0 610 L210 500 L430 620 L650 390 L820 560 L1020 430 L1230 615 L1410 460 L1600 580 V900 H0 Z" fill="url(#ridge2)" opacity=".96"/>
+            <path d="M0 680 C280 620 400 690 640 635 C820 595 1050 700 1260 640 C1410 596 1510 630 1600 600 V900 H0 Z" fill="#1a3529"/>
+            <path d="M-20 510 C300 440 480 590 770 475 C1030 370 1220 505 1630 410 L1630 650 C1290 720 1070 610 790 690 C540 755 230 620 -20 700 Z" fill="url(#mist)"/>
+            <path d="M720 900 C790 780 850 720 930 650 C990 595 1015 548 1035 500 C1048 465 1070 434 1095 415" fill="none" stroke="#e0b873" stroke-width="15" stroke-linecap="round" opacity=".85"/>
+            <path d="M720 900 C790 780 850 720 930 650 C990 595 1015 548 1035 500 C1048 465 1070 434 1095 415" fill="none" stroke="#f9e0ab" stroke-width="4" stroke-linecap="round" opacity=".95"/>
+            <g fill="#18362a" opacity=".9">
+              <path d="M120 900 l34 -180 l34 180z"/><path d="M180 900 l26 -145 l28 145z"/><path d="M1370 900 l36 -188 l36 188z"/><path d="M1440 900 l28 -152 l30 152z"/>
+            </g>
+          </svg>
+          <div class="hero-overlay"></div>
+          <div class="hero-content">
+            <span class="eyebrow">HIKING · TAIWAN</span>
+            <h1>把一段山路，<br>走成一個故事。</h1>
+            <p class="hero-sub">從清晨雲霧到午後山巒，我們把舒適、安全與風景安排進每一個腳步，帶你用剛剛好的節奏親近山林。</p>
+            <div class="hero-meta">
+              <span class="pill">一日健行</span><span class="pill">中低階難度</span><span class="pill">小團制</span>
+            </div>
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#signup">索取行程 & 報名</a>
+              <a class="btn btn-ghost" href="#journey">查看路線</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="journey">
+      <div class="container">
+        <div class="intro-grid">
+          <div>
+            <span class="eyebrow">THE JOURNEY</span>
+            <h2 style="margin-top:16px">週末，把時間還給山。</h2>
+            <p class="section-lead">為喜歡自然、又不想把週末排成軍事訓練的人設計。節奏舒適、風景有層次，沿途保留足夠的停留與拍照時間。</p>
+          </div>
+          <div class="stats" aria-label="行程資訊">
+            <div class="stat"><strong>6.8<span style="font-size:14px">km</span></strong><span>預計健行里程</span></div>
+            <div class="stat"><strong>4.5</strong><span>小時含休息</span></div>
+            <div class="stat"><strong>★ 3</strong><span>難度／5 顆星</span></div>
+          </div>
+        </div>
+
+        <div class="cards">
+          <article class="card">
+            <div class="card-media">
+              <svg viewBox="0 0 600 450" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label="雲霧山稜圖片">
+                <defs><linearGradient id="c1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#bed7dc"/><stop offset="1" stop-color="#5e816f"/></linearGradient></defs>
+                <rect width="600" height="450" fill="url(#c1)"/><path d="M0 310 L130 190 L215 260 L330 115 L450 265 L520 195 L600 260 V450 H0Z" fill="#567466"/><path d="M0 350 L160 245 L270 330 L390 200 L530 330 L600 280 V450 H0Z" fill="#284b3b"/><path d="M270 450 C310 380 345 330 370 285" fill="none" stroke="#dec18f" stroke-width="10" stroke-linecap="round"/><ellipse cx="130" cy="150" rx="170" ry="32" fill="#fff" opacity=".36" transform="rotate(-10 130 150)"/>
+              </svg>
+            </div>
+            <div class="card-body"><span class="card-tag">SCENERY</span><h3>雲霧森林稜線</h3><p>早晨沿著森林步道緩升，視野隨海拔打開，適合喜歡靜靜看山的人。</p></div>
+          </article>
+          <article class="card">
+            <div class="card-media">
+              <svg viewBox="0 0 600 450" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label="林間步道圖片">
+                <defs><linearGradient id="c2" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#dce8d1"/><stop offset="1" stop-color="#708f69"/></linearGradient></defs>
+                <rect width="600" height="450" fill="url(#c2)"/><g fill="#345540"><path d="M80 450 L160 0 L220 0 L170 450Z"/><path d="M465 450 L385 0 L335 0 L405 450Z"/></g><g fill="#567a5a"><ellipse cx="120" cy="82" rx="80" ry="38"/><ellipse cx="475" cy="96" rx="95" ry="45"/><ellipse cx="110" cy="220" rx="95" ry="55"/><ellipse cx="490" cy="245" rx="100" ry="60"/></g><path d="M300 450 C300 360 252 305 278 245 C300 197 348 172 330 105 C321 68 336 34 360 0" fill="#d4ba83" stroke="#f3dfb5" stroke-width="6"/>
+              </svg>
+            </div>
+            <div class="card-body"><span class="card-tag">TRAIL</span><h3>森林慢行步道</h3><p>溪谷、樹影、苔蘚與木棧路段交替，保留「邊走邊聊」的舒服節奏。</p></div>
+          </article>
+          <article class="card">
+            <div class="card-media">
+              <svg viewBox="0 0 600 450" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" role="img" aria-label="山頂日出圖片">
+                <defs><linearGradient id="c3" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e4a56c"/><stop offset=".45" stop-color="#f5d59d"/><stop offset="1" stop-color="#9fb7a2"/></linearGradient></defs>
+                <rect width="600" height="450" fill="url(#c3)"/><circle cx="410" cy="135" r="70" fill="#fff0bb" opacity=".85"/><path d="M0 305 L150 170 L250 280 L350 130 L475 260 L570 155 L600 185 V450 H0Z" fill="#56705f"/><path d="M0 350 L185 245 L310 330 L420 255 L600 345 V450 H0Z" fill="#233f32"/><path d="M310 450 C345 375 382 310 420 260 C445 225 470 190 510 168" fill="none" stroke="#efcc8d" stroke-width="12" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="card-body"><span class="card-tag">SUMMIT</span><h3>山頂廣角景觀</h3><p>抵達稜線後留一段空白，讓你自己選擇拍照、喝咖啡，或只是好好吹風。</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section features" id="features">
+      <div class="container">
+        <span class="eyebrow">WHY US</span>
+        <h2 style="margin-top:16px">不是走得最快，<br>而是走得剛剛好。</h2>
+        <div class="feature-grid">
+          <article class="feature"><div class="feature-num">01</div><h3>小團節奏</h3><p>控制團體規模，讓領隊能照顧個人狀態，也降低大隊伍等待與脫隊的不便。</p></article>
+          <article class="feature"><div class="feature-num">02</div><h3>行前提醒</h3><p>出發前提供路線、天氣、交通與裝備重點，第一次健行也能有清楚準備方向。</p></article>
+          <article class="feature"><div class="feature-num">03</div><h3>安全優先</h3><p>依當日現況調整行程節奏；遇到天候或路況不佳時，保留替代方案與彈性。</p></article>
+          <article class="feature"><div class="feature-num">04</div><h3>留白時間</h3><p>不是把每分鐘填滿，而是把休息與欣賞風景也算進旅程，讓回程仍然有餘裕。</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="gear">
+      <div class="container itinerary">
+        <div>
+          <span class="eyebrow">DAY PLAN</span>
+          <h2 style="margin-top:16px">一日行程，<br>這樣走最舒服。</h2>
+          <div class="route-card">
+            <div class="route-line">
+              <div class="step"><span class="dot"></span><div><small>07:30</small><h3>集合 & 行前暖身</h3><p>確認裝備、補水與分組，簡單活動身體後出發。</p></div></div>
+              <div class="step"><span class="dot"></span><div><small>09:00</small><h3>森林步道</h3><p>進入林線，維持均速；中途安排第一個補水休息點。</p></div></div>
+              <div class="step"><span class="dot"></span><div><small>11:30</small><h3>稜線午餐</h3><p>視野開闊處休息，保留自由拍照與補充能量時間。</p></div></div>
+              <div class="step"><span class="dot"></span><div><small>13:00</small><h3>緩步下山</h3><p>依個人狀態調整速度，預留咖啡／甜點小確幸時間。</p></div></div>
+            </div>
+          </div>
+          <div class="info-note">※ 行程時間為示意安排；實際路線、天候、交通與休息點依出發當日狀況調整。</div>
+        </div>
+
+        <div>
+          <span class="eyebrow">PACK SMART</span>
+          <h2 style="margin-top:16px">裝備不用多，<br>帶對就好。</h2>
+          <p class="section-lead">以一日、中低階健行為基準，重點是「防滑、保暖、防雨、補水」。避免為了想像中的山況帶上不必要的重量。</p>
+          <div class="gear-grid">
+            <div class="gear-item"><strong>🥾 防滑健行鞋</strong><span>鞋底抓地力優先，避免新鞋第一次上山。</span></div>
+            <div class="gear-item"><strong>🎒 20–30L 背包</strong><span>能放水、雨具、外套與簡單補給即可。</span></div>
+            <div class="gear-item"><strong>🧥 防風／雨外套</strong><span>山區天氣變化快，輕量好收納。</span></div>
+            <div class="gear-item"><strong>💧 飲水 1.5–2L</strong><span>依季節與個人飲水習慣調整。</span></div>
+            <div class="gear-item"><strong>🧢 遮陽用品</strong><span>帽子、防曬與墨鏡，晴天特別實用。</span></div>
+            <div class="gear-item"><strong>🔦 行動電源</strong><span>保持手機電量充足，方便聯絡與記錄旅程。</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section signup" id="signup">
+      <div class="container signup-wrap">
+        <div class="signup-copy">
+          <span class="eyebrow">JOIN THE NEXT HIKE</span>
+          <h2>留一個週末，<br>給自己一座山。</h2>
+          <p class="signup-note">填寫資料後，我們會依你偏好的日期與程度，提供適合的行程建議。此頁為示範網站，送出表單不代表實際成立報名。</p>
+        </div>
+        <form class="form-card" id="signupForm">
+          <div class="form-grid">
+            <div class="field"><label for="name">姓名 *</label><input id="name" name="name" required placeholder="請輸入姓名" /></div>
+            <div class="field"><label for="phone">手機 *</label><input id="phone" name="phone" type="tel" required placeholder="09xx-xxx-xxx" /></div>
+            <div class="field"><label for="email">Email *</label><input id="email" name="email" type="email" required placeholder="name@email.com" /></div>
+            <div class="field"><label for="level">健行經驗</label><select id="level" name="level"><option>第一次健行</option><option>偶爾健行</option><option>固定健行</option><option>有登山經驗</option></select></div>
+            <div class="field"><label for="date">希望出發日期</label><input id="date" name="date" type="date" /></div>
+            <div class="field"><label for="people">同行人數</label><select id="people" name="people"><option>1 人</option><option>2 人</option><option>3–4 人</option><option>5 人以上</option></select></div>
+            <div class="field full"><label for="message">備註</label><textarea id="message" name="message" placeholder="例如：希望難度簡單、想拍照、需要交通資訊……"></textarea></div>
+          </div>
+          <div class="form-footer">
+            <span class="consent">送出即代表同意以此表單資料聯繫行程事宜。</span>
+            <button class="btn submit" type="submit">送出報名意願</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 山嶺拾光 Hiking Studio</span>
+      <span>本頁為品牌行程推廣網站示範版</span>
+    </div>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite">已收到你的報名意願，我們會再與你聯繫。</div>
+</div>
+<script>
+  const form = document.getElementById('signupForm');
+  const toast = document.getElementById('toast');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!form.reportValidity()) return;
+    const name = document.getElementById('name').value.trim();
+    toast.textContent = `${name}，已收到你的報名意願，我們會再與你聯繫。`;
+    toast.classList.add('show');
+    form.reset();
+    window.setTimeout(() => toast.classList.remove('show'), 3200);
+  });
+</script>
+</body>
+</html>
