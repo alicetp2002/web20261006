@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Alex Ouyang | AI 轉型與資產配置顧問</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: {
+                            900: '#0B132B',
+                            800: '#1C2541',
+                            700: '#2A365C',
+                            600: '#3A4B7C',
+                        },
+                        gold: {
+                            400: '#F3C66B',
+                            500: '#D4AF37',
+                            600: '#AA8828',
+                        },
+                        emerald: {
+                            500: '#10B981',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'PingFang TC', 'Microsoft JhengHei', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(28, 37, 65, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card-hover:hover {
+            background: rgba(42, 54, 92, 0.85);
+            border-color: rgba(212, 175, 55, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF0CA 0%, #D4AF37 50%, #997819 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-button {
+            background: linear-gradient(135deg, #D4AF37 0%, #AA8828 100%);
+            transition: all 0.3s ease;
+        }
+        .gold-button:hover {
+            background: linear-gradient(135deg, #E5C158 0%, #C49E31 100%);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+    </style>
+</head>
+<body class="bg-navy-900 text-slate-100 font-sans antialiased selection:bg-gold-500 selection:text-navy-900">
+
+    <!-- 導覽列 (Navbar) -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg gold-button flex items-center justify-center font-bold text-navy-900 text-xl shadow-lg">
+                        AO
+                    </div>
+                    <div>
+                        <span class="text-lg font-bold tracking-wider text-white block leading-none">歐陽 律博士</span>
+                        <span class="text-xs text-gold-400 font-light tracking-widest block mt-1">Dr. Alex Ouyang</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                    <a href="#about" class="text-slate-300 hover:text-gold-400 transition-colors">關於我</a>
+                    <a href="#services" class="text-slate-300 hover:text-gold-400 transition-colors">專業服務</a>
+                    <a href="#portfolio" class="text-slate-300 hover:text-gold-400 transition-colors">投資案例</a>
+                    <a href="#insights" class="text-slate-300 hover:text-gold-400 transition-colors">趨勢觀點</a>
+                    <a href="#contact" class="text-slate-300 hover:text-gold-400 transition-colors">聯絡與諮詢</a>
+                </div>
+
+                <!-- CTA Button -->
+                <div class="hidden md:block">
+                    <button onclick="openBookingModal()" class="gold-button text-navy-900 font-semibold px-5 py-2.5 rounded-lg text-sm flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                        預約策略諮詢
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-300 hover:text-white focus:outline-none">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-card px-4 pt-2 pb-6 space-y-3">
+            <a href="#about" class="block text-slate-300 hover:text-gold-400 py-2">關於我</a>
+            <a href="#services" class="block text-slate-300 hover:text-gold-400 py-2">專業服務</a>
+            <a href="#portfolio" class="block text-slate-300 hover:text-gold-400 py-2">投資案例</a>
+            <a href="#insights" class="block text-slate-300 hover:text-gold-400 py-2">趨勢觀點</a>
+            <a href="#contact" class="block text-slate-300 hover:text-gold-400 py-2">聯絡與諮詢</a>
+            <button onclick="openBookingModal()" class="w-full gold-button text-navy-900 font-semibold py-3 rounded-lg flex items-center justify-center gap-2 mt-4">
+                <i data-lucide="calendar" class="w-4 h-4"></i>
+                預約策略諮詢
+            </button>
+        </div>
+    </nav>
+
+    <!-- 1.0 首頁主視覺區 (Hero Section) -->
+    <section class="relative pt-32 pb-20 lg:pt-44 lg:pb-32 overflow-hidden">
+        <!-- Background Decorative Elements -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gold-500/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute -top-20 -right-20 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Left Content -->
+                <div class="lg:col-span-7 space-y-8">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full glass-card border-gold-500/30 text-gold-400 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        AI 轉型顧問 × 跨國資產配置專家
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+                        以 <span class="gold-gradient-text">AI 數據賦能</span> 資產價值<br>
+                        打造高抗風險的跨國投資組合
+                    </h1>
+
+                    <p class="text-lg text-slate-300 font-light leading-relaxed max-w-2xl">
+                        專為高淨值個人、家族辦公室與成長型企業提供全方位資產規劃、私募股權投資與 AI 技術升級顧問服務。連結矽谷與亞洲頂尖資本，創造可持續的卓越超額回報。
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 pt-2">
+                        <button onclick="openBookingModal()" class="gold-button text-navy-900 font-bold px-8 py-4 rounded-xl text-base flex items-center justify-center gap-3 shadow-xl">
+                            <i data-lucide="trending-up" class="w-5 h-5"></i>
+                            預約 1-on-1 30分鐘諮詢
+                        </button>
+                        <a href="#portfolio" class="glass-card hover:bg-white/10 text-white font-medium px-8 py-4 rounded-xl text-base border border-white/20 flex items-center justify-center gap-2 transition">
+                            檢視投資實績
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <!-- Trust Metrics / Highlights Ticker -->
+                    <div class="pt-8 grid grid-cols-3 gap-6 border-t border-white/10">
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-gold-400">$3.2億+</div>
+                            <div class="text-xs text-slate-400 mt-1">管理與顧問資產 (AUM)</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-white">42+</div>
+                            <div class="text-xs text-slate-400 mt-1">企業 AI 賦能成功案例</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl sm:text-3xl font-extrabold text-emerald-500">26.4%</div>
+                            <div class="text-xs text-slate-400 mt-1">投資組合平均 IRR</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Hero Card -->
+                <div class="lg:col-span-5">
+                    <div class="relative mx-auto max-w-md lg:max-w-none">
+                        <!-- Decorative Frame -->
+                        <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-gold-500 to-blue-600 opacity-30 blur-lg"></div>
+                        
+                        <div class="relative glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-16 h-16 rounded-full bg-navy-700 border-2 border-gold-500/50 flex items-center justify-center text-gold-400 font-bold text-2xl">
+                                    AO
+                                </div>
+                                <div>
+                                    <h3 class="text-xl font-bold text-white">歐陽 律 博士</h3>
+                                    <p class="text-xs text-gold-400 font-medium">前外商資產管理 董事總經理</p>
+                                    <p class="text-xs text-slate-400">專長：AI 企業賦能 / 家族辦公室 / PE 投資</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-3 pt-2">
+                                <div class="p-3.5 rounded-lg bg-navy-800/80 border border-white/5 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="p-2 rounded bg-gold-500/10 text-gold-400">
+                                            <i data-lucide="shield-check" class="w-5 h-5"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-slate-200">家族財富傳承機制</span>
+                                    </div>
+                                    <span class="text-xs text-emerald-500 font-semibold">信託 & 稅務優化</span>
+                                </div>
+
+                                <div class="p-3.5 rounded-lg bg-navy-800/80 border border-white/5 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="p-2 rounded bg-blue-500/10 text-blue-400">
+                                            <i data-lucide="cpu" class="w-5 h-5"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-slate-200">生成式 AI 企業賦能</span>
+                                    </div>
+                                    <span class="text-xs text-blue-400 font-semibold">人均產值 +180%</span>
+                                </div>
+
+                                <div class="p-3.5 rounded-lg bg-navy-800/80 border border-white/5 flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="p-2 rounded bg-emerald-500/10 text-emerald-400">
+                                            <i data-lucide="globe" class="w-5 h-5"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-slate-200">跨國多元資產配置</span>
+                                    </div>
+                                    <span class="text-xs text-gold-400 font-semibold">低相關性對沖</span>
+                                </div>
+                            </div>
+
+                            <div class="p-4 rounded-xl bg-gold-500/10 border border-gold-500/20 text-center">
+                                <p class="text-xs text-gold-300 font-medium">
+                                    "投資不只是資金的挹注，更是運用新一代科技為企業進行結構性賦能。"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2.0 關於我 (About Me) -->
+    <section id="about" class="py-20 bg-navy-800/50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-gold-400 tracking-widest uppercase mb-2">ABOUT ME</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white">結合華爾街架構與矽谷 AI 視野的投資導師</h3>
+                <div class="w-16 h-1 bg-gold-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Story & Philosophy -->
+                <div class="space-y-6">
+                    <h4 class="text-2xl font-bold text-white">從量化交易到 AI 賦能投後管理的 15 年歷練</h4>
+                    <p class="text-slate-300 leading-relaxed">
+                        擁有倫敦帝國學院金融工程博士學位，曾任職於紐約與新加坡頂尖投資機構，管理超過 3 億美元之多重資產基金。近年專注於將**生成式 AI 與自動化運營系統**導入被投資企業，協助超過 40 家中大型企業進行技術轉型與價值再造。
+                    </p>
+                    
+                    <div class="space-y-4">
+                        <div class="glass-card p-4 rounded-xl flex gap-4 items-start">
+                            <div class="p-2.5 rounded-lg bg-gold-500/10 text-gold-400 shrink-0 mt-1">
+                                <i data-lucide="compass" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-white font-semibold mb-1">嚴謹的下行風險對沖哲學</h5>
+                                <p class="text-xs text-slate-400">「先求不敗，再求勝。」透過跨資產類別（Equity, Credit, PE, Real Estate）的量化配置，在市場波動中確保資產購買力。</p>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-4 rounded-xl flex gap-4 items-start">
+                            <div class="p-2.5 rounded-lg bg-gold-500/10 text-gold-400 shrink-0 mt-1">
+                                <i data-lucide="zap" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <h5 class="text-white font-semibold mb-1">主動型 Hands-on AI 賦能</h5>
+                                <p class="text-xs text-slate-400">不只提供資金，更直接派遣 AI 顧問團隊進駐，重新設計企業作業流程，平均縮短 40% 的營運週期。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Career Timeline / Highlights -->
+                <div class="glass-card rounded-2xl p-8 border border-white/10">
+                    <h4 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <i data-lucide="award" class="w-5 h-5 text-gold-400"></i>
+                        職涯里程碑與專業認證
+                    </h4>
+
+                    <div class="relative border-l-2 border-gold-500/30 pl-6 space-y-8">
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-gold-500 ring-4 ring-navy-900"></span>
+                            <span class="text-xs font-bold text-gold-400">2021 - 現今</span>
+                            <h5 class="text-base font-semibold text-white">極光資產顧問 (Aurora Capital) 執行合夥人</h5>
+                            <p class="text-xs text-slate-400 mt-1">專注於跨國家族辦公室規劃與 AI 併購投資（M&A）。</p>
+                        </div>
+
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-slate-500 ring-4 ring-navy-900"></span>
+                            <span class="text-xs font-bold text-slate-400">2016 - 2021</span>
+                            <h5 class="text-base font-semibold text-white">東南亞黑石創投 (Asia Private Equity) 董事總經理</h5>
+                            <p class="text-xs text-slate-400 mt-1">主導 12 起 SaaS 與高科技製造業成長期投資案。</p>
+                        </div>
+
+                        <div class="relative">
+                            <span class="absolute -left-[31px] top-1.5 w-3 h-3 rounded-full bg-slate-500 ring-4 ring-navy-900"></span>
+                            <span class="text-xs font-bold text-slate-400">2012 - 2016</span>
+                            <h5 class="text-base font-semibold text-white">高盛集團 (Goldman Sachs) 數據量化分析主管</h5>
+                            <p class="text-xs text-slate-400 mt-1">負責宏觀演算法交易與資產風險控制模型開發。</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 pt-6 border-t border-white/10 flex flex-wrap gap-2">
+                        <span class="px-3 py-1 rounded-full bg-navy-700 text-xs text-slate-300 font-medium">CFA 特許金融分析師</span>
+                        <span class="px-3 py-1 rounded-full bg-navy-700 text-xs text-slate-300 font-medium">CAIA 特許另類投資分析師</span>
+                        <span class="px-3 py-1 rounded-full bg-navy-700 text-xs text-slate-300 font-medium">Imperial College PhD</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3.0 投資服務 (Investment Services) -->
+    <section id="services" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-gold-400 tracking-widest uppercase mb-2">SERVICES</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white">量身打造的資產成長與轉型解方</h3>
+                <p class="text-slate-400 text-sm mt-3">為企業主、高淨值家族與機構投資人提供客製化模組服務</p>
+                <div class="w-16 h-1 bg-gold-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="glass-card glass-card-hover rounded-2xl p-8 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                            <i data-lucide="cpu" class="w-7 h-7"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">AI 轉型投資與企業賦能</h4>
+                        <p class="text-xs text-gold-400 font-medium mb-4">適合對象：中小企業主 / 成長期創辦人</p>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>企業 AI 診斷與轉型藍圖規劃</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>生成式 AI 流程自動化部署</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>成長資金挹注與資本市場佈局</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('AI 轉型投資與企業賦能')" class="w-full py-3 rounded-lg border border-gold-500/40 text-gold-400 hover:bg-gold-500 hover:text-navy-900 font-semibold text-sm transition text-center">
+                        了解服務詳情
+                    </button>
+                </div>
+
+                <!-- Service Card 2 -->
+                <div class="glass-card glass-card-hover rounded-2xl p-8 transition-all duration-300 flex flex-col justify-between relative overflow-hidden border-gold-500/40">
+                    <div class="absolute top-0 right-0 bg-gold-500 text-navy-900 text-[10px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+                        POPULAR
+                    </div>
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                            <i data-lucide="landmark" class="w-7 h-7"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">全球資產配置與家族辦公室</h4>
+                        <p class="text-xs text-gold-400 font-medium mb-4">適合對象：高淨值個人 ($2M+ USD) / 家族企業</p>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>跨國多重資產結構設計 (US, SG, HK)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>家族信託與跨代財富傳承機制</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>量化對沖與下行風險避險策略</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('全球資產配置與家族辦公室')" class="w-full py-3 rounded-lg gold-button text-navy-900 font-bold text-sm transition text-center shadow-lg">
+                        預約專屬顧問
+                    </button>
+                </div>
+
+                <!-- Service Card 3 -->
+                <div class="glass-card glass-card-hover rounded-2xl p-8 transition-all duration-300 flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-6">
+                            <i data-lucide="pie-chart" class="w-7 h-7"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-white mb-3">私募股權與新創投資顧問</h4>
+                        <p class="text-xs text-gold-400 font-medium mb-4">適合對象：VC/PE 機構 / 天使投資人聯會</p>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>DeepTech / AI 項目盡職調查 (DD)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>投後價值創造與營運優化</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500 shrink-0 mt-0.5"></i>
+                                <span>二次份額交易 (Secondary Market) 撮合</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('私募股權與新創投資顧問')" class="w-full py-3 rounded-lg border border-gold-500/40 text-gold-400 hover:bg-gold-500 hover:text-navy-900 font-semibold text-sm transition text-center">
+                        了解服務詳情
+                    </button>
+                </div>
+            </div>
+
+            <!-- 合作流程 (Methodology Step) -->
+            <div class="mt-20 glass-card rounded-2xl p-8 border border-white/10">
+                <h4 class="text-xl font-bold text-white text-center mb-10">四大合作服務流程</h4>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-center relative">
+                    <div class="space-y-2">
+                        <div class="w-12 h-12 rounded-full bg-gold-500/20 text-gold-400 font-bold text-lg flex items-center justify-center mx-auto border border-gold-500/40">1</div>
+                        <h5 class="text-white font-semibold text-base">初探評估與需求診斷</h5>
+                        <p class="text-xs text-slate-400">30 分鐘線上會議，釐清資產現況、風險承受度與轉型目標。</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="w-12 h-12 rounded-full bg-gold-500/20 text-gold-400 font-bold text-lg flex items-center justify-center mx-auto border border-gold-500/40">2</div>
+                        <h5 class="text-white font-semibold text-base">專屬策略藍圖擬定</h5>
+                        <p class="text-xs text-slate-400">量身打造資產配置比例或 AI 導入可行性報告與 ROI 評估。</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="w-12 h-12 rounded-full bg-gold-500/20 text-gold-400 font-bold text-lg flex items-center justify-center mx-auto border border-gold-500/40">3</div>
+                        <h5 class="text-white font-semibold text-base">精準執行與資源對接</h5>
+                        <p class="text-xs text-slate-400">協助信託設立、跨國投資下單或派遣技術團隊進駐執行。</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="w-12 h-12 rounded-full bg-gold-500/20 text-gold-400 font-bold text-lg flex items-center justify-center mx-auto border border-gold-500/40">4</div>
+                        <h5 class="text-white font-semibold text-base">動態監控與季複盤</h5>
+                        <p class="text-xs text-slate-400">定期報告投資組合績效，依總體經濟變化彈性調整風險曝險。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4.0 投資公司展示 / 成功案例 (Portfolio Showcase) -->
+    <section id="portfolio" class="py-20 bg-navy-800/50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <h2 class="text-xs font-bold text-gold-400 tracking-widest uppercase mb-2">PORTFOLIO & CASE STUDIES</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white">深度賦能與投資實績展示</h3>
+                <p class="text-slate-400 text-sm mt-3">真實案例拆解：如何透過資本與 AI 技術帶來實質回報</p>
+                <div class="w-16 h-1 bg-gold-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <!-- Category Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-3 mb-12" id="filter-buttons">
+                <button onclick="filterPortfolio('all')" class="portfolio-filter-btn active px-4 py-2 rounded-full text-xs font-semibold glass-card border-gold-500 text-gold-400">全部案例</button>
+                <button onclick="filterPortfolio('ai')" class="portfolio-filter-btn px-4 py-2 rounded-full text-xs font-semibold glass-card text-slate-300 hover:text-white">AI & 生成式應用</button>
+                <button onclick="filterPortfolio('fintech')" class="portfolio-filter-btn px-4 py-2 rounded-full text-xs font-semibold glass-card text-slate-300 hover:text-white">金融科技 (FinTech)</button>
+                <button onclick="filterPortfolio('greentech')" class="portfolio-filter-btn px-4 py-2 rounded-full text-xs font-semibold glass-card text-slate-300 hover:text-white">綠能科技 & 醫療</button>
+            </div>
+
+            <!-- Portfolio Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Case 1 -->
+                <div class="portfolio-item ai glass-card rounded-2xl overflow-hidden border border-white/10 group hover:border-gold-500/50 transition">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 rounded bg-blue-500/20 text-blue-400 text-[10px] font-bold uppercase">Series B 成長股</span>
+                            <span class="text-emerald-500 font-bold text-sm">ROI: +320%</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white group-hover:text-gold-400 transition">NexusAI 智算科技</h4>
+                        <p class="text-xs text-slate-400 mt-1 mb-4">企業級 LLM 微調與自動化工作流平台</p>
+                        
+                        <div class="space-y-2 py-3 border-y border-white/5 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">賦能策略：</span>
+                                <span class="text-slate-200">引進日本與新加坡戰略機構投資</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">營運效益：</span>
+                                <span class="text-emerald-400 font-medium">ARR 12個月內成長 4.2x</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-xs text-slate-300 mt-4 line-clamp-2">
+                            協助創辦團隊重新建構 B2B 訂閱制商業模式，並導入高效能數據處理管線，成功在次年獲得 4,500萬 美元 B 輪融資。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Case 2 -->
+                <div class="portfolio-item fintech glass-card rounded-2xl overflow-hidden border border-white/10 group hover:border-gold-500/50 transition">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 rounded bg-gold-500/20 text-gold-400 text-[10px] font-bold uppercase">Buyout / 併購案</span>
+                            <span class="text-emerald-500 font-bold text-sm">IRR: 31.5%</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white group-hover:text-gold-400 transition">PayStream 跨國支付</h4>
+                        <p class="text-xs text-slate-400 mt-1 mb-4">東南亞 B2B 供應鏈清算平台</p>
+                        
+                        <div class="space-y-2 py-3 border-y border-white/5 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">賦能策略：</span>
+                                <span class="text-slate-200">合規執照申請與風險評估系統</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">營運效益：</span>
+                                <span class="text-emerald-400 font-medium">交易量 (TPV) 達 $1.2B</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-xs text-slate-300 mt-4 line-clamp-2">
+                            主導戰略併購後，協助對接全球主要銀行清算通道，成功提升其跨境資金轉移效率 60%。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Case 3 -->
+                <div class="portfolio-item greentech glass-card rounded-2xl overflow-hidden border border-white/10 group hover:border-gold-500/50 transition">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase">Pre-IPO</span>
+                            <span class="text-emerald-500 font-bold text-sm">估值增長 2.8x</span>
+                        </div>
+                        <h4 class="text-xl font-bold text-white group-hover:text-gold-400 transition">Verde 儲能科技</h4>
+                        <p class="text-xs text-slate-400 mt-1 mb-4">工業級智慧電池管理系統 (BMS)</p>
+                        
+                        <div class="space-y-2 py-3 border-y border-white/5 text-xs">
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">賦能策略：</span>
+                                <span class="text-slate-200">AI 負載預測演算法導入</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-slate-400">營運效益：</span>
+                                <span class="text-emerald-400 font-medium">取得 3 家歐洲電廠長約</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-xs text-slate-300 mt-4 line-clamp-2">
+                            提供 ESG 資產配置架構與國際電廠資源對接，預計於 2027 年在新加坡交易所掛牌上市。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Client Testimonials -->
+            <div class="mt-16 glass-card rounded-2xl p-8 border border-white/10">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-4">
+                        <div class="flex text-gold-400 gap-1">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-sm text-slate-300 italic">
+                            「歐陽博士不單是財務顧問，更是我們企業轉型關鍵時刻的戰略夥伴。他導入的 AI 流程重組為我們節省了數百萬美元的營運成本。」
+                        </p>
+                        <div>
+                            <span class="text-white font-bold text-sm block">張董事長</span>
+                            <span class="text-xs text-slate-400">某上市精密製造集團 創辦人</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex text-gold-400 gap-1">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-sm text-slate-300 italic">
+                            「在處理家族跨國資產繼承與新加坡信託時，歐陽博士展現了極高水平的專業度與資訊保密意識，讓我們全家非常放心。」
+                        </p>
+                        <div>
+                            <span class="text-white font-bold text-sm block">Mr. Chen</span>
+                            <span class="text-xs text-slate-400">新加坡科技家族辦公室 代表</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 5.0 觀點與專欄 (Insights & Publications) -->
+    <section id="insights" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <h2 class="text-xs font-bold text-gold-400 tracking-widest uppercase mb-2">INSIGHTS & BLOG</h2>
+                <h3 class="text-3xl sm:text-4xl font-bold text-white">最新前沿觀點與趨勢分析</h3>
+                <div class="w-16 h-1 bg-gold-500 mx-auto mt-4 rounded-full"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <article class="glass-card glass-card-hover rounded-2xl p-6 transition">
+                    <span class="text-[10px] font-bold text-gold-400 tracking-wider uppercase">AI 轉型趨勢</span>
+                    <h4 class="text-lg font-bold text-white mt-2 mb-3">2026 生成式 AI 在私募股權投後管理的實戰框架</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        如何運用 LLM Agent 重新定義傳統企業的工作流程？從投後 100 天計畫剖析 AI 賦能範例...
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-white/5">
+                        <span>2026-09-18</span>
+                        <span class="text-gold-400 flex items-center gap-1">閱讀內文 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </article>
+
+                <article class="glass-card glass-card-hover rounded-2xl p-6 transition">
+                    <span class="text-[10px] font-bold text-gold-400 tracking-wider uppercase">資產配置</span>
+                    <h4 class="text-lg font-bold text-white mt-2 mb-3">高通膨與降息循環下的家族財富防禦戰術</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        分析美聯儲利率決策後，跨國資產如何透過黃金、私募債權與實體資產進行防禦性布局...
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-white/5">
+                        <span>2026-08-25</span>
+                        <span class="text-gold-400 flex items-center gap-1">閱讀內文 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </article>
+
+                <article class="glass-card glass-card-hover rounded-2xl p-6 transition">
+                    <span class="text-[10px] font-bold text-gold-400 tracking-wider uppercase">家族辦公室</span>
+                    <h4 class="text-lg font-bold text-white mt-2 mb-3">新加坡 vs. 香港：2026 家族辦公室稅務架構對比</h4>
+                    <p class="text-xs text-slate-400 leading-relaxed mb-4">
+                        針對 13O / 13U 條款優勢拆解，為亞洲高淨值家族提供最優的國際稅務與傳承規劃指南...
+                    </p>
+                    <div class="flex items-center justify-between text-xs text-slate-500 pt-4 border-t border-white/5">
+                        <span>2026-07-30</span>
+                        <span class="text-gold-400 flex items-center gap-1">閱讀內文 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Newsletter Signup -->
+            <div class="mt-16 glass-card rounded-2xl p-8 border border-gold-500/30 text-center max-w-2xl mx-auto">
+                <i data-lucide="mail-check" class="w-10 h-10 text-gold-400 mx-auto mb-3"></i>
+                <h4 class="text-xl font-bold text-white">訂閱《歐陽律的資產與 AI 週報》</h4>
+                <p class="text-xs text-slate-300 mt-2 mb-6">每週五發送，為您導讀全球資本市場脈動與 AI 商業突破。</p>
+                <form onsubmit="event.preventDefault(); alert('感謝您的訂閱！電子報將於每週五發送。');" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+                    <input type="email" placeholder="請輸入您的電子郵件" required class="bg-navy-900/80 border border-white/20 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500 grow">
+                    <button type="submit" class="gold-button text-navy-900 font-bold px-6 py-2.5 rounded-lg text-sm shrink-0">
+                        免費訂閱
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6.0 聯絡我 (Contact & Booking) -->
+    <section id="contact" class="py-20 bg-navy-800/50 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                <!-- Contact Info -->
+                <div class="lg:col-span-5 space-y-8">
+                    <div>
+                        <h2 class="text-xs font-bold text-gold-400 tracking-widest uppercase mb-2">CONTACT</h2>
+                        <h3 class="text-3xl font-bold text-white">開啟您的資產與轉型對話</h3>
+                        <p class="text-slate-300 text-sm mt-3">
+                            無論您是希望進行企業 AI 賦能、規劃跨國資產配置，或探討私募投資合作，歡迎隨時聯繫。
+                        </p>
+                    </div>
+
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-center gap-4 p-4 rounded-xl glass-card">
+                            <div class="p-3 rounded-lg bg-gold-500/10 text-gold-400">
+                                <i data-lucide="mail" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">官方信箱</span>
+                                <span class="text-white font-medium">alex.ouyang@auroracapital.com</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-4 rounded-xl glass-card">
+                            <div class="p-3 rounded-lg bg-gold-500/10 text-gold-400">
+                                <i data-lucide="map-pin" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">辦公室據點</span>
+                                <span class="text-white font-medium">台北信義區 / 新加坡 Marina Bay Financial Centre</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-4 p-4 rounded-xl glass-card">
+                            <div class="p-3 rounded-lg bg-gold-500/10 text-gold-400">
+                                <i data-lucide="lock" class="w-5 h-5"></i>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-400 block">資訊安全與保密承諾</span>
+                                <span class="text-white font-medium">全程遵循 NDA 嚴格保密協議</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Icons -->
+                    <div class="flex gap-4 pt-2">
+                        <a href="#" class="w-10 h-10 rounded-lg glass-card flex items-center justify-center text-slate-300 hover:text-gold-400 hover:border-gold-500/50 transition">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg glass-card flex items-center justify-center text-slate-300 hover:text-gold-400 hover:border-gold-500/50 transition">
+                            <i data-lucide="twitter" class="w-5 h-5"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-lg glass-card flex items-center justify-center text-slate-300 hover:text-gold-400 hover:border-gold-500/50 transition">
+                            <i data-lucide="file-text" class="w-5 h-5"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pre-qualification Inquiry Form -->
+                <div class="lg:col-span-7">
+                    <div class="glass-card rounded-2xl p-8 border border-white/10">
+                        <h4 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                            <i data-lucide="send" class="w-5 h-5 text-gold-400"></i>
+                            諮詢需求預估表單
+                        </h4>
+
+                        <form onsubmit="handleInquirySubmit(event)" class="space-y-5">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-300 mb-2">姓名 *</label>
+                                    <input type="text" required placeholder="例如：陳大明" class="w-full bg-navy-900/80 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-300 mb-2">公司名稱 / 職稱</label>
+                                    <input type="text" placeholder="例如：未來科技 執行長" class="w-full bg-navy-900/80 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-300 mb-2">電子郵件 *</label>
+                                    <input type="email" required placeholder="alex@example.com" class="w-full bg-navy-900/80 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-300 mb-2">主要諮詢項目 *</label>
+                                    <select class="w-full bg-navy-900/80 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                        <option value="ai">AI 轉型投資與企業賦能</option>
+                                        <option value="asset">全球資產配置與家族辦公室</option>
+                                        <option value="pe">私募股權與新創投資顧問</option>
+                                        <option value="other">其他合作需求</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-2">預計投資 / 資產規模 (USD)</label>
+                                <select class="w-full bg-navy-900/80 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500">
+                                    <option value="1">$50萬 - $200萬 美金</option>
+                                    <option value="2">$200萬 - $1,000萬 美金</option>
+                                    <option value="3">$1,000萬美金以上</option>
+                                    <option value="0">暫不透露 / 企業諮詢</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-medium text-slate-300 mb-2">諮詢摘要與主要痛點 *</label>
+                                <textarea rows="4" required placeholder="請簡述您目前的資產狀況或企業面臨的 AI 轉型瓶頸..." class="w-full bg-navy-900/80 border border-white/15 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-gold-500"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full gold-button text-navy-900 font-bold py-3.5 rounded-xl text-base shadow-lg flex items-center justify-center gap-2">
+                                <i data-lucide="check-circle" class="w-5 h-5"></i>
+                                提交諮詢表單
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-navy-900 border-t border-white/10 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                © 2026 Dr. Alex Ouyang. All Rights Reserved. 免責聲明：本網站內容僅供參考，不構成任何投資邀約。
+            </div>
+            <div class="flex gap-6">
+                <a href="#" class="hover:text-slate-300">隱私權條款</a>
+                <a href="#" class="hover:text-slate-300">保密協議 (NDA)</a>
+                <a href="#" class="hover:text-slate-300">免責聲明</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Booking Modal Mockup -->
+    <div id="booking-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/80 backdrop-blur-md hidden">
+        <div class="glass-card rounded-2xl p-6 sm:p-8 max-w-lg w-full border border-gold-500/40 relative shadow-2xl">
+            <button onclick="closeBookingModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+
+            <div id="modal-step-1">
+                <div class="text-center mb-6">
+                    <span class="px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-semibold">1-ON-1 CALENDLY</span>
+                    <h3 class="text-2xl font-bold text-white mt-2">預約 30分鐘 策略諮詢</h3>
+                    <p class="text-xs text-slate-400 mt-1">選擇適合您的時間，我們將發送會議連結至您的信箱。</p>
+                </div>
+
+                <div class="space-y-4 text-sm">
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">諮詢主題</label>
+                        <input id="modal-service-name" type="text" readonly value="全球資產配置與家族辦公室" class="w-full bg-navy-800 border border-white/10 rounded-lg px-3 py-2 text-gold-400 text-xs font-semibold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">選擇預約日期</label>
+                        <input type="date" value="2026-10-12" class="w-full bg-navy-900/90 border border-white/20 rounded-lg px-3 py-2 text-white text-xs">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">選擇時段 (GMT+8)</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button onclick="selectTime(this)" class="time-slot border border-gold-500/50 bg-gold-500/20 text-gold-400 py-2 rounded text-xs font-semibold">10:00 AM</button>
+                            <button onclick="selectTime(this)" class="time-slot border border-white/10 hover:border-gold-500/50 py-2 rounded text-xs text-slate-300">02:00 PM</button>
+                            <button onclick="selectTime(this)" class="time-slot border border-white/10 hover:border-gold-500/50 py-2 rounded text-xs text-slate-300">04:30 PM</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-medium text-slate-300 mb-1">您的聯絡 Name & Email</label>
+                        <input type="text" placeholder="您的姓名" class="w-full bg-navy-900/90 border border-white/20 rounded-lg px-3 py-2 text-white text-xs mb-2">
+                        <input type="email" placeholder="your@email.com" class="w-full bg-navy-900/90 border border-white/20 rounded-lg px-3 py-2 text-white text-xs">
+                    </div>
+
+                    <button onclick="confirmBooking()" class="w-full gold-button text-navy-900 font-bold py-3 rounded-lg text-sm mt-2">
+                        確認並發送行事曆邀請
+                    </button>
+                </div>
+            </div>
+
+            <div id="modal-step-2" class="hidden text-center py-8 space-y-4">
+                <div class="w-16 h-16 bg-emerald-500/20 text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-500/40">
+                    <i data-lucide="check" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white">預約成功！</h3>
+                <p class="text-xs text-slate-300 max-w-xs mx-auto">
+                    我們已將 Zoom 線上會議邀請發送至您的電子郵件，屆時歐陽律博士團隊將與您準時對接。
+                </p>
+                <button onclick="closeBookingModal()" class="px-6 py-2 bg-navy-700 hover:bg-navy-600 text-white rounded-lg text-xs font-semibold">
+                    關閉視窗
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Interactive Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Booking Modal Control
+        function openBookingModal(serviceName = '1-on-1 專業資產與轉型諮詢') {
+            document.getElementById('modal-service-name').value = serviceName;
+            document.getElementById('modal-step-1').classList.remove('hidden');
+            document.getElementById('modal-step-2').classList.add('hidden');
+            document.getElementById('booking-modal').classList.remove('hidden');
+        }
+
+        function closeBookingModal() {
+            document.getElementById('booking-modal').classList.add('hidden');
+        }
+
+        function selectTime(btn) {
+            document.querySelectorAll('.time-slot').forEach(el => {
+                el.classList.remove('border-gold-500/50', 'bg-gold-500/20', 'text-gold-400');
+                el.classList.add('border-white/10', 'text-slate-300');
+            });
+            btn.classList.add('border-gold-500/50', 'bg-gold-500/20', 'text-gold-400');
+        }
+
+        function confirmBooking() {
+            document.getElementById('modal-step-1').classList.add('hidden');
+            document.getElementById('modal-step-2').classList.remove('hidden');
+        }
+
+        // Portfolio Filter Logic
+        function filterPortfolio(category) {
+            const items = document.querySelectorAll('.portfolio-item');
+            const btns = document.querySelectorAll('.portfolio-filter-btn');
+
+            btns.forEach(btn => {
+                btn.classList.remove('border-gold-500', 'text-gold-400');
+                btn.classList.add('text-slate-300');
+            });
+
+            event.target.classList.add('border-gold-500', 'text-gold-400');
+
+            items.forEach(item => {
+                if (category === 'all' || item.classList.contains(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+
+        // Form Submission
+        function handleInquirySubmit(e) {
+            e.preventDefault();
+            alert('感謝您的諮詢申請！我們的團隊將於 24 小時內與您聯繫並安排細節。');
+            e.target.reset();
+        }
+    </script>
+</body>
+</html>
